@@ -1,10 +1,17 @@
+import FrontendLayout from "../cocmponents/Layouts/FrontendLayuot";
+import Navbar from "../cocmponents/Navbar/Navbar";
+
 export default function Home() {
   return (
-    <h1 className="">
-      <p className="font-light">font-light 300</p>
-      <p className="font-normal">font-normal 400</p>
-      <p className="font-bold">font-bold 700</p>
-      <p className="font-extrabold">font-extrabold 800</p>
-    </h1>
+    <FrontendLayout>
+      <Navbar/>
+      <section
+        className="relative flex min-h-screen items-center overflow-hidden bg-cover bg-center pt-32 lg:pt-36 py-2"
+        style={{ backgroundImage: "url('/images/hero.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-linear-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
+      </section>
+    </FrontendLayout>
   );
 }
