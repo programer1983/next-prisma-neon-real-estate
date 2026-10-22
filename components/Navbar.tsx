@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FaHome } from "react-icons/fa";
+import { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import MobileMenu from "./MobileMenu";
 
 interface NavbarProps {
   variant?: "transparent" | "solid";
@@ -13,7 +19,9 @@ const navLinks = [
 ];
 
 export default function Navbar({ variant = "transparent" }: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const isTransparent = variant === "transparent";
+
   return (
     <section
       className={`top-0 left-0 z-50 w-full
@@ -22,7 +30,8 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <nav
-          className={`flex items-center justify-between h-20 ${isTransparent ? "mt-6 rounded-3xl border border-white/10 bg-white/5 px-6 backdrop-blur-2xl" : "px-0"}`}
+          className={`flex items-center justify-between h-20 
+            ${isTransparent ? "mt-6 rounded-3xl border border-white/10 bg-white/5 px-6 backdrop-blur-2xl" : "px-0"}`}
         >
           <Link href="/" className="flex items-center font-semibold text-2xl">
             <span className={isTransparent ? "text-gray-300 " : "text-text"}>
@@ -37,7 +46,8 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition hover:text-[#4f46e5] ${isTransparent ? "text-white/80" : "text-text/70"}`}
+                className={`text-sm font-medium transition hover:text-[#4f46e5] 
+                  ${isTransparent ? "text-white/80" : "text-text/70"}`}
               >
                 {item.name}
               </Link>
@@ -45,12 +55,14 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
           </div>
           <div className="hidden lg:flex items-center gap-4">
             <Button
-              className={`group bg-white text-black text-[12px] p-5 font-semibold" hover:bg-white duration-300 hover:scale-[1.05] will-change-transform ${!isTransparent ? "bg-white text-black border border-black/15 hover:border-black/30" : ""}`}
+              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform
+                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
             >
               <span className="group-hover:text-[#4f46e5] ">Login</span>
             </Button>
             <Button
-              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform ${!isTransparent ? "bg-white text-black border-black/15 hover:border-black/30" : ""}`}
+              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
+                ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
             >
               <span className="group-hover:text-[#4f46e5]">
                 <FaHome />
@@ -58,7 +70,23 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
               <span className="group-hover:text-[#4f46e5]">Add Property</span>
             </Button>
           </div>
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`flex h-11 w-11 items-center justify-center rounded-xl transition lg:hidden 
+            ${isTransparent ? "border border-white/10 bg-white/5 text-white" : "border border-black/10 bg-background text-text"}`}
+          >
+            {isOpen ? (
+              <IoClose className="size-6" />
+            ) : (
+              <HiOutlineMenuAlt3 className="size-6" />
+            )}
+          </Button>
         </nav>
+        <MobileMenu
+          isOpen={isOpen}
+          isTransparent={isTransparent}
+          navLinks={navLinks}
+        />
       </div>
     </section>
   );
