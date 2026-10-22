@@ -1,10 +1,10 @@
-import FrontendLayout from "../cocmponents/Layouts/FrontendLayuot";
-import Navbar from "../cocmponents/Navbar/Navbar";
+import FrontendLayout from "../components/FrontendLayuot";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   return (
     <FrontendLayout>
-      <Navbar/>
+      <Navbar variant="solid" />
       <section
         className="relative flex min-h-screen items-center overflow-hidden bg-cover bg-center pt-32 lg:pt-36 py-2"
         style={{ backgroundImage: "url('/images/hero.jpg')" }}

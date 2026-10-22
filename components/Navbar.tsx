@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { FaHome } from "react-icons/fa";
 
 interface NavbarProps {
   variant?: "transparent" | "solid";
@@ -26,7 +28,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
             <span className={isTransparent ? "text-gray-300 " : "text-text"}>
               Next
             </span>
-            <span className="bg-primary text-white px-2 py-1 rounded-tr-2xl rounded-bl-2xl">
+            <span className="bg-[#4f46e5] text-white px-2 py-1 rounded-tr-2xl rounded-bl-2xl">
               Estate
             </span>
           </Link>
@@ -35,13 +37,27 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition hover:text-primary ${isTransparent ? "text-white/80" : "text-text/70"}`}
+                className={`text-sm font-medium transition hover:text-[#4f46e5] ${isTransparent ? "text-white/80" : "text-text/70"}`}
               >
                 {item.name}
               </Link>
             ))}
           </div>
-          <div className="hidden lg:flex items-center gap-4"></div>
+          <div className="hidden lg:flex items-center gap-4">
+            <Button
+              className={`group bg-white text-black text-[12px] p-5 font-semibold" hover:bg-white duration-300 hover:scale-[1.05] will-change-transform ${!isTransparent ? "bg-white text-black border border-black/15 hover:border-black/30" : ""}`}
+            >
+              <span className="group-hover:text-[#4f46e5] ">Login</span>
+            </Button>
+            <Button
+              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform ${!isTransparent ? "bg-white text-black border-black/15 hover:border-black/30" : ""}`}
+            >
+              <span className="group-hover:text-[#4f46e5]">
+                <FaHome />
+              </span>
+              <span className="group-hover:text-[#4f46e5]">Add Property</span>
+            </Button>
+          </div>
         </nav>
       </div>
     </section>
