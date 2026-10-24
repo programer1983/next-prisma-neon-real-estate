@@ -28,7 +28,6 @@ export default function Hero() {
             the best location around the world.
           </p>
           <SearchBox />
-        
         </div>
       </div>
     </section>
