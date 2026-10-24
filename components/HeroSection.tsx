@@ -1,4 +1,5 @@
 import { Badge } from "../components/ui/badge";
+import SearchBox from "./SearchBox";
 
 export default function Hero() {
   return (
@@ -9,7 +10,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/55" />
       <div className="absolute inset-0 bg-linear-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
       <div className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 ">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 
              bg-white/5 px-5 py-2 backdrop-blur-xl"
@@ -26,6 +27,8 @@ export default function Hero() {
             Discover luxury apartaments, modern homes, and premium properties in
             the best location around the world.
           </p>
+          <SearchBox />
+        
         </div>
       </div>
     </section>
