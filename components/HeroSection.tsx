@@ -4,7 +4,7 @@ import SearchBox from "./SearchBox";
 export default function Hero() {
   return (
     <section
-      className="relative flex min-h-screen items-center overflow-hidden bg-cover bg-center pt-32 lg:pt-36 py-2"
+      className="relative flex min-h-screen items-center overflow-hidden bg-cover bg-center pt-32 lg:pt-36 py-5 md:py-2"
       style={{ backgroundImage: "url('/images/hero.jpg')" }}
     >
       <div className="absolute inset-0 bg-black/55" />
@@ -20,7 +20,7 @@ export default function Hero() {
               Premium Real Estate Marketplace
             </span>
           </div>
-          <h2 className="text-4xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
+          <h2 className="text-4xl max-w-212.5 font-bold leading-tight text-white md:text-6xl lg:text-7xl">
             Find The Perfect Place To Call Home
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">

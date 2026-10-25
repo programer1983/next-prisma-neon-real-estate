@@ -3,7 +3,7 @@ import PropertyCard from "./PropertyCard";
 
 export default function RecentProperties() {
   return (
-    <section className="p-24">
+    <section className="py-10 md:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="max-w-2xl">
           <p className="mb-3 text-sm font-semibold uppercase tracing-[0.25em] text-[#4f46e5]">
@@ -17,7 +17,7 @@ export default function RecentProperties() {
             to our marketplace by trusted own and agents.
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 my-6">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 my-6">
           {dummyProperties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}

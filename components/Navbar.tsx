@@ -12,7 +12,7 @@ interface NavbarProps {
   variant?: "transparent" | "solid";
 }
 
-const navLinks = [
+export const navLinks = [
   { name: "Home", href: "/" },
   { name: "Properties", href: "/properties" },
   { name: "Marketplace", href: "/marketplace" },
@@ -34,7 +34,9 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
             ${isTransparent ? "mt-6 rounded-3xl border border-white/10 bg-white/5 px-6 backdrop-blur-2xl" : "px-0"}`}
         >
           <Link href="/" className="flex items-center font-semibold text-2xl">
-            <span className={isTransparent ? "text-gray-300 " : "text-text"}>
+            <span
+              className={isTransparent ? "text-gray-300 " : "text-[#111827]"}
+            >
               Next
             </span>
             <span className="bg-[#4f46e5] text-white px-2 py-1 rounded-tr-2xl rounded-bl-2xl">

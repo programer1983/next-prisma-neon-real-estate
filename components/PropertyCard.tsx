@@ -30,22 +30,26 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           className="absolute bottom-5 left-5 right-5 z-20  rounded-[28px] border border-white/10
          bg-white/10 p-5 backdrop-blur-2xl"
         >
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              {property.status === "rent" ? (
-                <h3 className="text-3xl font-bold text-white flex items-center">
-                  ${property.price.toLocaleString()}
-                  <span className="text-sm text-white/60">/Month</span>
-                </h3>
-              ) : (
-                <h3 className="text-3xl font-bold text-white">
-                  ${property.price.toLocaleString()}
-                </h3>
-              )}
-              <p className="mt-1 text-sm text-white/60 ">{property.location}</p>
-            </div>
-            <div className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-              {property.type}
+          <div>
+            <div className="w-full flex flex-col-reverse min-[800px]:flex-row items-start justify-between">
+              <div>
+                {property.status === "rent" ? (
+                  <h3 className="text-3xl font-bold text-white flex items-center">
+                    ${property.price.toLocaleString()}
+                    <span className="text-sm text-white/60">/Month</span>
+                  </h3>
+                ) : (
+                  <h3 className="text-3xl font-bold text-white">
+                    ${property.price.toLocaleString()}
+                  </h3>
+                )}
+                <p className="mt-1 text-sm text-white/60">
+                  {property.location}
+                </p>
+              </div>
+              <div className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white mb-5 min-[800px]:mb-0">
+                {property.type}
+              </div>
             </div>
           </div>
           <h2 className="mt-5 text-2xl font-bold text-white">
