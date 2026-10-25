@@ -31,9 +31,16 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <nav
           className={`flex items-center justify-between h-20 
-            ${isTransparent ? "mt-6 rounded-3xl border border-white/10 bg-white/5 px-6 backdrop-blur-2xl" : "px-0"}`}
+            ${
+              isTransparent
+                ? "mt-6 rounded-3xl border border-white/10 bg-white/5 px-6 backdrop-blur-2xl"
+                : "px-0"
+            }`}
         >
-          <Link href="/" className="flex items-center font-semibold text-2xl">
+          <Link
+            href="/"
+            className="flex items-center font-semibold text-2xl cursor-pointer"
+          >
             <span
               className={isTransparent ? "text-gray-300 " : "text-[#111827]"}
             >
@@ -57,13 +64,15 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
           </div>
           <div className="hidden lg:flex items-center gap-4">
             <Button
-              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform
-                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
+                duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
+                ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
             >
               <span className="group-hover:text-[#4f46e5] ">Login</span>
             </Button>
             <Button
-              className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
+              className={`group bg-white text-black text-[12px] p-5 font-semibold 
+                cursor-pointer hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
             >
               <span className="group-hover:text-[#4f46e5]">
@@ -74,8 +83,12 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
           </div>
           <Button
             onClick={() => setIsOpen(!isOpen)}
-            className={`flex h-11 w-11 items-center justify-center rounded-xl transition lg:hidden 
-            ${isTransparent ? "border border-white/10 bg-white/5 text-white" : "border border-black/10 bg-background text-text"}`}
+            className={`flex h-11 w-11 items-center justify-center rounded-xl transition lg:hidden cursor-pointer
+            ${
+              isTransparent
+                ? "border border-white/10 bg-white/5 text-white"
+                : "border border-black/10 bg-background text-text"
+            }`}
           >
             {isOpen ? (
               <IoClose className="size-6" />
