@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Geist } from "next/font/google";
 import "./globals.css";
+import RegisterModal from "../components/RegisterModal";
+import LoginModal from "../components/LoginModal";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -22,6 +24,8 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable}`}>
       <body className={`${poppins.variable} min-h-full flex flex-col`}>
         {children}
+        <RegisterModal />
+        <LoginModal />
       </body>
     </html>
   );

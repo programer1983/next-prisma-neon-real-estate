@@ -7,6 +7,7 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import MobileMenu from "./MobileMenu";
+import { useAuthModal } from "../store/useAuthModalStore";
 
 interface NavbarProps {
   variant?: "transparent" | "solid";
@@ -20,6 +21,8 @@ export const navLinks = [
 
 export default function Navbar({ variant = "transparent" }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { openLogin } = useAuthModal();
+
   const isTransparent = variant === "transparent";
 
   return (
@@ -67,6 +70,7 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
               className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
                 duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+              onClick={openLogin}
             >
               <span className="group-hover:text-[#4f46e5] ">Login</span>
             </Button>

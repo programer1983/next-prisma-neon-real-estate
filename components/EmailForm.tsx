@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "./../components/ui/textarea";
 import { cn } from "cn";
 
 interface InputValues {
@@ -21,7 +21,10 @@ export default function EmailForm() {
     message: "",
   });
 
-  const hasValue = Boolean(values.name);
+  const hasName = Boolean(values.name);
+  const hasEmail = Boolean(values.email);
+  const hasPhone = Boolean(values.phone);
+  const hasMessage = Boolean(values.message);
 
   return (
     <div className="mt-6 lg:mt-0 rounded-4xl border border-black/5 bg-card p-8 shadow-sm">
@@ -40,18 +43,24 @@ export default function EmailForm() {
       </div>
       <div className="mt-8 space-y-4">
         <div className="relative">
-          <Input
+          <input
             name="name"
-            id="contact-name"
+            id="register-name"
+            type="text"
             value={values.name}
             onChange={(e) => setValues({ ...values, name: e.target.value })}
-            className="peer pt-8 pb-4  border-gray-500/30 border-2 focus:border-none"
+            style={{
+              transition: "background-color 9999s ease-in-out 0s",
+            }}
+            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
+            border-2 border-gray-500/30 bg-white transition-colors duration-200 
+            focus:border-[2.5px] focus:border-gray-500/60"
           />
           <label
-            htmlFor="contact-name"
+            htmlFor="register-name"
             className={cn(
               "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasValue
+              hasName
                 ? "scale-75 -translate-y-2.5 text-gray-700"
                 : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
             )}
@@ -60,18 +69,23 @@ export default function EmailForm() {
           </label>
         </div>
         <div className="relative">
-          <Input
+          <input
             name="email"
             id="contact-email"
             value={values.email}
             onChange={(e) => setValues({ ...values, email: e.target.value })}
-            className="peer pt-8 pb-4  border-gray-500/30 border-2 focus:border-none"
+            style={{
+              transition: "background-color 9999s ease-in-out 0s",
+            }}
+            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
+            border-2 border-gray-500/30 bg-white transition-colors duration-200 
+            focus:border-[2.5px] focus:border-gray-500/60"
           />
           <label
             htmlFor="contact-email"
             className={cn(
               "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasValue
+              hasEmail
                 ? "scale-75 -translate-y-2.5 text-gray-700"
                 : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
             )}
@@ -80,18 +94,23 @@ export default function EmailForm() {
           </label>
         </div>
         <div className="relative">
-          <Input
+          <input
             name="phone"
             id="contact-phone"
             value={values.phone}
             onChange={(e) => setValues({ ...values, phone: e.target.value })}
-            className="peer pt-8 pb-4  border-gray-500/30 border-2 focus:border-none"
+            style={{
+              transition: "background-color 9999s ease-in-out 0s",
+            }}
+            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
+            border-2 border-gray-500/30 bg-white transition-colors duration-200 
+            focus:border-[2.5px] focus:border-gray-500/60"
           />
           <label
             htmlFor="contact-phone"
             className={cn(
               "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasValue
+              hasPhone
                 ? "scale-75 -translate-y-2.5 text-gray-700"
                 : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
             )}
@@ -100,20 +119,25 @@ export default function EmailForm() {
           </label>
         </div>
         <div className="relative">
-          <Textarea
+          <textarea
             name="message"
             id="contact-message"
             value={values.message}
             onChange={(e) => setValues({ ...values, message: e.target.value })}
-            className="peer pt-8 pb-4  border-gray-500/30 border-2 focus:border-none resize-none"
+            style={{
+              transition: "background-color 9999s ease-in-out 0s",
+            }}
+            className="peer px-3.5 pt-4.5 pb-1 w-full outline-none rounded-lg 
+            border-2 border-gray-500/30 bg-white transition-colors duration-200 
+            focus:border-[2.5px] focus:border-gray-500/60 resize-none h-50"
           />
           <label
             htmlFor="contact-message"
             className={cn(
-              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasValue
-                ? "scale-75 -translate-y-2.5 text-gray-700"
-                : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
+              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left z-10",
+              hasMessage
+                ? "scale-75 -translate-y-3.5 top-3.5 left-3 bg-white px-1.5 text-gray-700"
+                : "top-3.5 peer-focus:scale-75 peer-focus:-translate-y-3.5 peer-focus:top-3.5 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1.5 peer-focus:text-gray-700",
             )}
           >
             Your message
