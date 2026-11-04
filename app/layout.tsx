@@ -3,6 +3,7 @@ import { Poppins, Geist } from "next/font/google";
 import "./globals.css";
 import RegisterModal from "../components/RegisterModal";
 import LoginModal from "../components/LoginModal";
+import CreatePropertyModal from "../components/CreatePropertyModal";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -26,6 +27,7 @@ export default function RootLayout({
         {children}
         <RegisterModal />
         <LoginModal />
+        <CreatePropertyModal />
       </body>
     </html>
   );

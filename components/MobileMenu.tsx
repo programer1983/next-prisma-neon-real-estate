@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { FaHome } from "react-icons/fa";
 import Link from "next/link";
 import { useAuthModal } from "../store/useAuthModalStore";
+import { useCreatePropertyModalStore } from "../store/useCreatePropertyModal";
 
 interface NavLinkItem {
   name: string;
@@ -19,6 +20,7 @@ export default function MobileMenu({
   navLinks,
 }: MobileMenuProps) {
   const { openLogin } = useAuthModal();
+  const { open: openCreateModal } = useCreatePropertyModalStore();
 
   return (
     <div>
@@ -55,6 +57,7 @@ export default function MobileMenu({
                 className={`group bg-white text-black text-[12px] p-5 font-semibold 
                 hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                onClick={openCreateModal}
               >
                 <span className="group-hover:text-[#4f46e5]">
                   <FaHome />

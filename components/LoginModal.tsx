@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useAuthModal } from "../store/useAuthModalStore";
 import Modal from "./Modal";
-import { Input } from "./ui/input";
 import { cn } from "cn";
 import { Loader2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";

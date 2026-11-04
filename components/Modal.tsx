@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { LuX } from "react-icons/lu";
@@ -37,7 +38,7 @@ export default function Modal({
       />
       <div
         className={`relative z-10 w-full max-w-lg rounded-2xl bg-white shadow-2xl
-          transform transition-all duration-500 py-5
+          transform transition-all duration-500 py-5 
           ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"}`}
       >
         <div
