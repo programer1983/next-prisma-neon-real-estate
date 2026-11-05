@@ -7,6 +7,7 @@ import { propertyTypes } from "../data/propertyTypes";
 import PropertyTypeCard from "./PropertyTypeCard";
 import { cn } from "cn";
 import Counter from "./Counter";
+import { Input } from "./InputLayout";
 
 const STEPS = {
   TYPE: 0,
@@ -28,10 +29,13 @@ export default function CreatePropertyModal() {
   const [bethrooms, setBethrooms] = useState(1);
   const [parkingSpaces, setParkingSpaces] = useState(0);
   const [area, setArea] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const hasLocation = Boolean(location);
   const hasAddress = Boolean(address);
-  const hasArea = Boolean(area);
+  const hasTitle = Boolean(title);
+  const hasDescription = Boolean(description);
 
   const stepTitle = () => {
     switch (step) {
@@ -86,62 +90,26 @@ export default function CreatePropertyModal() {
         )}
         {step === STEPS.LOCATION && (
           <div className="space-y-6 w-full">
-            <div className="relative">
-              <input
-                name="location"
-                id="location"
-                type="text"
-                value={location}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setLocation(e.target.value)
-                }
-                style={{
-                  transition: "background-color 9999s ease-in-out 0s",
-                }}
-                className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
-                    border-2 border-gray-500/30 bg-white transition-colors duration-200 
-                    focus:border-[2.5px] focus:border-gray-500/60"
-              />
-              <label
-                htmlFor="location"
-                className={cn(
-                  "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-                  hasLocation
-                    ? "scale-75 -translate-y-2.5 text-gray-700"
-                    : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
-                )}
-              >
-                Location
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                name="address"
-                id="address"
-                type="text"
-                value={address}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setAddress(e.target.value)
-                }
-                style={{
-                  transition: "background-color 9999s ease-in-out 0s",
-                }}
-                className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
-                    border-2 border-gray-500/30 bg-white transition-colors duration-200 
-                    focus:border-[2.5px] focus:border-gray-500/60"
-              />
-              <label
-                htmlFor="address"
-                className={cn(
-                  "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-                  hasAddress
-                    ? "scale-75 -translate-y-2.5 text-gray-700"
-                    : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
-                )}
-              >
-                Address
-              </label>
-            </div>
+            <Input
+              name="location"
+              id="location"
+              label="Location"
+              type="text"
+              value={location}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setLocation(e.target.value)
+              }
+            />
+            <Input
+              name="address"
+              id="address"
+              label="Address"
+              type="text"
+              value={address}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setAddress(e.target.value)
+              }
+            />
           </div>
         )}
         {step === STEPS.DETAILS && (
@@ -182,6 +150,30 @@ export default function CreatePropertyModal() {
                 focus:border-[2.5px] focus:border-gray-500/60"
               />
             </div>
+          </div>
+        )}
+        {step === STEPS.FEATURES && (
+          <div className="space-y-6">
+            <Input
+              name="title"
+              id="title"
+              label="Title"
+              type="text"
+              value={title}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
+            />
+            <Input
+              name="description"
+              id="description"
+              label="Description"
+              type="text"
+              value={description}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setDescription(e.target.value)
+              }
+            />
           </div>
         )}
       </div>
