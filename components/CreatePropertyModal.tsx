@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { propertyTypes } from "../data/propertyTypes";
 import PropertyTypeCard from "./PropertyTypeCard";
 import { cn } from "cn";
+import Counter from "./Counter";
 
 const STEPS = {
   TYPE: 0,
@@ -23,9 +24,14 @@ export default function CreatePropertyModal() {
   const [propertyType, setPropertyType] = useState("");
   const [location, setLocation] = useState("");
   const [address, setAddress] = useState("");
+  const [bedrooms, setBedrooms] = useState(1);
+  const [bethrooms, setBethrooms] = useState(1);
+  const [parkingSpaces, setParkingSpaces] = useState(0);
+  const [area, setArea] = useState("");
 
   const hasLocation = Boolean(location);
   const hasAddress = Boolean(address);
+  const hasArea = Boolean(area);
 
   const stepTitle = () => {
     switch (step) {
@@ -138,9 +144,44 @@ export default function CreatePropertyModal() {
             </div>
           </div>
         )}
-        {step === STEPS.DETAILS &&(
+        {step === STEPS.DETAILS && (
           <div className="space-y-4">
-
+            <Counter
+              title="Bedrooms"
+              subTitle="How many bedrooms"
+              value={bedrooms}
+              onChange={setBedrooms}
+            />
+            <Counter
+              title="Bethrooms"
+              subTitle="How many bethrooms"
+              value={bethrooms}
+              onChange={setBethrooms}
+            />
+            <Counter
+              title="Parking Spaces"
+              subTitle="How many parking spaces"
+              value={parkingSpaces}
+              onChange={setParkingSpaces}
+            />
+            <div className="relative">
+              <input
+                name="area"
+                type="number"
+                placeholder="Property area (sqft)"
+                value={area}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setArea(e.target.value)
+                }
+                style={{
+                  transition: "background-color 9999s ease-in-out 0s",
+                }}
+                className="w-full h-12.5 outline-none rounded-lg py-3.75 px-2.5 
+                border-2 border-gray-500/30 bg-white transition-colors 
+                duration-200 hover:border-gray-500/60 hover:border-[2.5px] 
+                focus:border-[2.5px] focus:border-gray-500/60"
+              />
+            </div>
           </div>
         )}
       </div>
@@ -156,8 +197,8 @@ export default function CreatePropertyModal() {
           </button>
         )}
         <button
-          className="py-2 w-full bg-blue-600 text-white rounded-lg
-          transition duration-500 cursor-pointer disabled:opacity-50 hover:bg-blue-400"
+          className="py-2 w-full bg-[#4f46e5] text-white rounded-lg
+          transition duration-500 cursor-pointer disabled:opacity-50 hover:bg-[#4f46e5]/80"
           onClick={() =>
             step < STEPS.PRICING ? setStep((prev) => prev + 1) : createListing()
           }
