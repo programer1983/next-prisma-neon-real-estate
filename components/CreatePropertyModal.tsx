@@ -8,6 +8,7 @@ import PropertyTypeCard from "./PropertyTypeCard";
 import { cn } from "cn";
 import Counter from "./Counter";
 import { Input } from "./InputLayout";
+import ImageUpload from "./ImageUpload";
 
 const STEPS = {
   TYPE: 0,
@@ -31,11 +32,8 @@ export default function CreatePropertyModal() {
   const [area, setArea] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  const hasLocation = Boolean(location);
-  const hasAddress = Boolean(address);
-  const hasTitle = Boolean(title);
-  const hasDescription = Boolean(description);
+  const [image, setImage] = useState<null | File>(null);
+  const [preview, setPreview] = useState<null | string>(null);
 
   const stepTitle = () => {
     switch (step) {
@@ -55,6 +53,11 @@ export default function CreatePropertyModal() {
       default:
         return "";
     }
+  };
+
+  const handleImageChange = (file: File) => {
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   const createListing = async () => {};
@@ -175,6 +178,9 @@ export default function CreatePropertyModal() {
               }
             />
           </div>
+        )}
+        {step === STEPS.IMAGE && (
+          <ImageUpload preview={preview} onChange={handleImageChange} />
         )}
       </div>
       <div className="mt-3 flex gap-3">
