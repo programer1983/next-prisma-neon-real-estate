@@ -34,6 +34,8 @@ export default function CreatePropertyModal() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<null | File>(null);
   const [preview, setPreview] = useState<null | string>(null);
+  const [listingType, setListingType] = useState<"rent" | "sale">("sale");
+  const [price, setPrice] = useState("");
 
   const stepTitle = () => {
     switch (step) {
@@ -181,6 +183,41 @@ export default function CreatePropertyModal() {
         )}
         {step === STEPS.IMAGE && (
           <ImageUpload preview={preview} onChange={handleImageChange} />
+        )}
+        {step === STEPS.PRICING && (
+          <div className="space-y-6">
+            <select
+              value={listingType}
+              onChange={(e) =>
+                setListingType(e.target.value as "sale" | "rent")
+              }
+              className="w-full h-12.5 outline-none rounded-2xl  px-2.5 
+                border-2 border-gray-500/30 bg-white transition-colors 
+                duration-200 hover:border-gray-500/60 hover:border-[2.5px] 
+                focus:border-[2.5px] focus:border-gray-500/60"
+            >
+              <option value="rent">For Rent</option>
+              <option value="sale">For Sale</option>
+            </select>
+            <input
+              name="price"
+              type="number"
+              placeholder={
+                listingType === "sale" ? "Sale Price" : "Monthly Rent"
+              }
+              value={price}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPrice(e.target.value)
+              }
+              style={{
+                transition: "background-color 9999s ease-in-out 0s",
+              }}
+              className="w-full h-12.5 outline-none rounded-2xl py-3.75 px-2.5 
+                border-2 border-gray-500/30 bg-white transition-colors 
+                duration-200 hover:border-gray-500/60 hover:border-[2.5px] 
+                focus:border-[2.5px] focus:border-gray-500/60 placeholder:text-gray-500/70"
+            />
+          </div>
         )}
       </div>
       <div className="mt-3 flex gap-3">
