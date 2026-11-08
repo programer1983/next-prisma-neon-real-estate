@@ -4,6 +4,7 @@ import "./globals.css";
 import RegisterModal from "../components/RegisterModal";
 import LoginModal from "../components/LoginModal";
 import CreatePropertyModal from "../components/CreatePropertyModal";
+import FilterModal from "../components/FilterModal";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -28,6 +29,7 @@ export default function RootLayout({
         <RegisterModal />
         <LoginModal />
         <CreatePropertyModal />
+        <FilterModal />
       </body>
     </html>
   );
