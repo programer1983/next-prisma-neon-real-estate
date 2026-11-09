@@ -6,6 +6,9 @@ import Modal from "./Modal";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "cn";
+import toast from "react-hot-toast";
+import { authClient } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
 
 interface RegisterValues {
   name: string;
@@ -16,6 +19,7 @@ interface RegisterValues {
 type RegisterErrors = Partial<Record<keyof RegisterValues, string>>;
 
 export default function RegisterModal() {
+  const router = useRouter();
   const { openLogin, isRegisterOpen, closeRegister } = useAuthModal();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<RegisterErrors>({});
@@ -46,20 +50,44 @@ export default function RegisterModal() {
 
     if (!values.password.trim()) {
       newErrors.password = "Password is required";
-    } else if (values.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters!";
+    } else if (values.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters!";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form is valid, sending data...", values);
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+      const { error } = await authClient.signUp.email({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      });
+      if (error) {
+        toast.error(error.message as string);
+        return;
+      }
+      toast.success("Registration successful");
+      router.refresh();
+      setValues({ name: "", email: "", password: "" });
+      closeRegister();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <Modal title="Register" onClose={closeRegister} isOpen={isRegisterOpen}>
       <div className="mt-6 mb-5 space-y-1">
@@ -68,7 +96,7 @@ export default function RegisterModal() {
         </h2>
         <p className="text-sm text-gray-500">Create an account</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-8">
         <div className="relative">
           <input
             name="name"

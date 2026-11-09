@@ -6,6 +6,9 @@ import Modal from "./Modal";
 import { cn } from "cn";
 import { Loader2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { authClient } from "../lib/auth-client";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface LoginValues {
   email: string;
@@ -15,6 +18,7 @@ interface LoginValues {
 type LoginErrors = Partial<Record<keyof LoginValues, string>>;
 
 export default function LoginModal() {
+  const router = useRouter();
   const { openRegister, isLoginOpen, closeLogin } = useAuthModal();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<LoginErrors>({});
@@ -44,10 +48,32 @@ export default function LoginModal() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form is valid, sending data...", values);
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+      const { error } = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      });
+      if (error) {
+        toast.error(error.message as string);
+        return;
+      }
+      toast.success("Login successful");
+      router.refresh();
+      setValues({ email: "", password: "" });
+      closeLogin();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,7 +83,7 @@ export default function LoginModal() {
         <h2 className="text-2xl font-semibold text-gray-900">Welcome back</h2>
         <p className="text-sm text-gray-500">Logun to your account</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-6">
         <div className="relative">
           <input
             name="email"
