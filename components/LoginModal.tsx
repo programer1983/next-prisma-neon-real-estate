@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { authClient } from "../lib/auth-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "../services/signInWithGoogle";
 
 interface LoginValues {
   email: string;
@@ -179,6 +180,7 @@ export default function LoginModal() {
         </div>
       </div>
       <button
+        onClick={signInWithGoogle}
         className="w-full bg-transparent flex items-center justify-center 
         gap-1.5 rounded-[10px] py-3 ring-2 ring-gray-500/30 hover:ring-gray-500/60 
         transition duration-500 cursor-pointer disabled:opacity-50"

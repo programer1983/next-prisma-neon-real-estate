@@ -9,6 +9,7 @@ import { cn } from "cn";
 import toast from "react-hot-toast";
 import { authClient } from "../lib/auth-client";
 import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "../services/signInWithGoogle";
 
 interface RegisterValues {
   name: string;
@@ -225,6 +226,7 @@ export default function RegisterModal() {
         </div>
       </div>
       <button
+        onClick={signInWithGoogle}
         className="w-full bg-transparent flex items-center justify-center 
         gap-1.5 rounded-[10px] py-3 ring-2 ring-gray-500/30 hover:ring-gray-500/60 
         transition duration-500 cursor-pointer disabled:opacity-50"
