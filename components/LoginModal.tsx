@@ -41,7 +41,7 @@ export default function LoginModal() {
 
     if (!values.password.trim()) {
       newErrors.password = "Password is required";
-    } else if (values.password.length < 6) {
+    } else if (values.password.length < 8) {
       newErrors.password = "Password must be at least 6 characters!";
     }
 
