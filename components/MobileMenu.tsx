@@ -3,6 +3,8 @@ import { FaHome } from "react-icons/fa";
 import Link from "next/link";
 import { useAuthModal } from "../store/useAuthModalStore";
 import { useCreatePropertyModalStore } from "../store/useCreatePropertyModal";
+import { useRouter } from "next/navigation";
+import { authClient } from "../lib/auth-client";
 
 interface NavLinkItem {
   name: string;
@@ -21,6 +23,13 @@ export default function MobileMenu({
 }: MobileMenuProps) {
   const { openLogin } = useAuthModal();
   const { open: openCreateModal } = useCreatePropertyModalStore();
+  const { data: session, isPending } = authClient.useSession();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.refresh();
+  };
 
   return (
     <div>
@@ -45,15 +54,35 @@ export default function MobileMenu({
               </Link>
             ))}
             <div className="flex flex-col gap-3 mt-4">
-              <Button
+              {/* <Button
                 className={`group bg-white text-black text-[12px] p-5 font-semibold 
                 hover:bg-white duration-300 hover:scale-[1.05] will-change-transform
                  ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
                 onClick={openLogin}
               >
                 <span className="group-hover:text-[#4f46e5] ">Login</span>
-              </Button>
-              <Button
+              </Button> */}
+
+              {session ? (
+                <Button
+                  className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
+                              duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
+                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  onClick={handleLogout}
+                >
+                  <span className="group-hover:text-[#4f46e5] ">Logout</span>
+                </Button>
+              ) : (
+                <Button
+                  className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
+                              duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
+                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  onClick={openLogin}
+                >
+                  <span className="group-hover:text-[#4f46e5] ">Login</span>
+                </Button>
+              )}
+              {/* <Button
                 className={`group bg-white text-black text-[12px] p-5 font-semibold 
                 hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
                 ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
@@ -63,7 +92,22 @@ export default function MobileMenu({
                   <FaHome />
                 </span>
                 <span className="group-hover:text-[#4f46e5]">Add Property</span>
-              </Button>
+              </Button> */}
+              {!isPending && session && (
+                <Button
+                  className={`group bg-white text-black text-[12px] p-5 font-semibold 
+                              cursor-pointer hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
+                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  onClick={openCreateModal}
+                >
+                  <span className="group-hover:text-[#4f46e5]">
+                    <FaHome />
+                  </span>
+                  <span className="group-hover:text-[#4f46e5]">
+                    Add Property
+                  </span>
+                </Button>
+              )}
             </div>
           </div>
         </div>
