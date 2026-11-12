@@ -5,10 +5,14 @@ import { useCreatePropertyModalStore } from "../store/useCreatePropertyModal";
 import Modal from "./Modal";
 import { propertyTypes } from "../data/propertyTypes";
 import PropertyTypeCard from "./PropertyTypeCard";
-import { cn } from "cn";
 import Counter from "./Counter";
 import { Input } from "./InputLayout";
 import ImageUpload from "./ImageUpload";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Textarea } from "./TextariaLaout";
+import { TbLoader2 } from "react-icons/tb";
 
 const STEPS = {
   TYPE: 0,
@@ -20,6 +24,7 @@ const STEPS = {
 };
 
 export default function CreatePropertyModal() {
+  const router = useRouter();
   const [step, setStep] = useState(STEPS.TYPE);
   const { isOpen, close } = useCreatePropertyModalStore();
   const [loading, setLoading] = useState(false);
@@ -62,7 +67,59 @@ export default function CreatePropertyModal() {
     setPreview(URL.createObjectURL(file));
   };
 
-  const createListing = async () => {};
+  const createListing = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("location", location);
+      formData.append("address", address);
+      formData.append("area", area);
+      formData.append("propertyType", propertyType);
+      formData.append("listingType", listingType);
+      formData.append("bedrooms", bedrooms.toString());
+      formData.append("bethrooms", bethrooms.toString());
+      formData.append("parkingSpaces", parkingSpaces.toString());
+      formData.append("price", price.toString());
+      if (image) {
+        formData.append("image", image);
+      }
+      await axios.post("/api/properties", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Property created successfully");
+      router.replace("/properties");
+      handleClose();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error || "Something went wrong");
+        return;
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setPrice("");
+    setBedrooms(1);
+    setBethrooms(1);
+    setParkingSpaces(0);
+    setPropertyType("");
+    setLocation("");
+    setTitle("");
+    setDescription("");
+    setImage(null);
+    setPreview(null);
+    setStep(STEPS.TYPE);
+    setAddress("");
+    setArea("");
+    close();
+  };
 
   return (
     <Modal title="Create a new listing" onClose={close} isOpen={isOpen}>
@@ -169,13 +226,13 @@ export default function CreatePropertyModal() {
                 setTitle(e.target.value)
               }
             />
-            <Input
+            <Textarea
               name="description"
               id="description"
               label="Description"
               type="text"
               value={description}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setDescription(e.target.value)
               }
             />
@@ -239,7 +296,16 @@ export default function CreatePropertyModal() {
           }
           disabled={loading}
         >
-          {step === STEPS.PRICING ? "Create listing" : "Next"}
+          {loading ? (
+            <div className="flex items-center justify-center gap-1.5">
+              <TbLoader2 className="w-5 h-5 animate-spin" />
+              <span>Creating...</span>
+            </div>
+          ) : step === STEPS.PRICING ? (
+            "Create listing"
+          ) : (
+            "Next"
+          )}
         </button>
       </div>
     </Modal>
