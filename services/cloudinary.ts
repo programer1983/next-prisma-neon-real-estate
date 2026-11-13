@@ -14,10 +14,15 @@ export async function uploadToCloudinary(
   const dataURL = `data:${file.type};base64,${base64}`;
 
   try {
+    // const result = await cloudinary.uploader.upload(dataURL, {
+    //   folder: "next-estate",
+    //   //   resource_type: "image",
+    //   transformation: [{ format: "webp" }],
+    // });
     const result = await cloudinary.uploader.upload(dataURL, {
       folder: "next-estate",
-      //   resource_type: "image",
-      transformation: [{ format: "webp" }],
+      format: "webp",
+      transformation: [{ width: 1600, crop: "limit", quality: "auto" }],
     });
 
     return {

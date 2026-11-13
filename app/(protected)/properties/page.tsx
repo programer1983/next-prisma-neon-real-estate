@@ -1,9 +1,10 @@
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import Navbar from "../../../components/Navbar";
-import { dummyProperties } from "../../../data/dummyProperties";
 import PropertyCard from "../../../components/PropertyCard";
 import FrontendLayout from "./../../../components/FrontendLayuot";
 import { Button } from "../../../components/ui/button";
+import { getUserProperties } from "../../../server-actions/getUserProperties";
+import { Suspense } from "react";
 
 export default function PropertiesPage() {
   return (
@@ -16,20 +17,31 @@ export default function PropertiesPage() {
           </h2>
           <Button
             variant={"outline"}
-            className=" font-semibol text-base p-5 rounded-[12px] hover:bg-transparent
-                    cursor-pointer  hover:border-black/30"
+            className="font-semibol text-base p-5 rounded-[12px] hover:bg-transparent
+            cursor-pointer  hover:border-black/30"
           >
             <HiOutlineAdjustmentsHorizontal className="size-4" />
             Filter
           </Button>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 my-4">
-          {dummyProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
-        </div>
+        <Suspense fallback={<p>Loading...</p>}>
+          <PropertiesContent />
+        </Suspense>
       </div>
-      s
     </FrontendLayout>
+  );
+}
+
+async function PropertiesContent() {
+  const properties = await getUserProperties();
+  if (properties.length === 0) {
+    return <p>No properties found</p>;
+  }
+  return (
+    <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 my-4">
+      {properties.map((property) => (
+        <PropertyCard key={property.id} property={property} />
+      ))}
+    </div>
   );
 }
