@@ -6,6 +6,7 @@ import { Button } from "../../../components/ui/button";
 import { getUserProperties } from "../../../server-actions/getUserProperties";
 import { Suspense } from "react";
 import CardSceleton from "../../../components/sceletons/CardSceleton";
+import EmptyState from "../../../components/EmptyState";
 
 export default function PropertiesPage() {
   return (
@@ -36,7 +37,13 @@ export default function PropertiesPage() {
 async function PropertiesContent() {
   const properties = await getUserProperties();
   if (properties.length === 0) {
-    return <p>No properties found</p>;
+    return (
+      <EmptyState
+        title="No Properties Found"
+        subTitle="You currently have no properties available.
+        Check back later after creating new listing"
+      />
+    );
   }
   return (
     <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 my-4">
