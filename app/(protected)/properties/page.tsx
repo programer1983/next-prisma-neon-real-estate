@@ -5,6 +5,7 @@ import FrontendLayout from "./../../../components/FrontendLayuot";
 import { Button } from "../../../components/ui/button";
 import { getUserProperties } from "../../../server-actions/getUserProperties";
 import { Suspense } from "react";
+import CardSceleton from "../../../components/sceletons/CardSceleton";
 
 export default function PropertiesPage() {
   return (
@@ -24,7 +25,7 @@ export default function PropertiesPage() {
             Filter
           </Button>
         </div>
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<CardSceleton />}>
           <PropertiesContent />
         </Suspense>
       </div>

@@ -10,8 +10,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Link
       href={`/property/${property.id}`}
-      className="group relative block rounded-4xl h-125 overflow-hidden 
-      bg-gray-900"
+      className="group relative block rounded-4xl h-125 overflow-hidden"
     >
       <Image
         src={property.image}
