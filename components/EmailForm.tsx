@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Input } from "./ui/input";
-import { Textarea } from "./../components/ui/textarea";
+import { Button } from "./ui/button";
 import { cn } from "cn";
+import { FaPaperPlane } from "react-icons/fa";
 
 interface InputValues {
   email: string;
@@ -143,6 +143,17 @@ export default function EmailForm() {
             Your message
           </label>
         </div>
+        <button
+          className="bg-[#4f46e5] text-white text-[12px] py-3 w-full 
+          font-semibold cursor-pointer  duration-300 hover:scale-[1.02] 
+          flex items-center justify-center gap-2 will-change-transform
+          rounded-lg"
+        >
+          <span>
+            <FaPaperPlane size={15} />
+          </span>
+          <span className="text-[15px]">Add Message</span>
+        </button>
       </div>
     </div>
   );
