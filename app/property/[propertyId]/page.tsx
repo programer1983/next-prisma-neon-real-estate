@@ -6,6 +6,7 @@ import Image from "next/image";
 import EmailForm from "../../../components/EmailForm";
 import { Suspense } from "react";
 import { getProperty } from "../../../server-actions/getProperty";
+import PropertyPageSkeleton from "../../../components/sceletons/PropertyPageSceleton";
 
 export function formatPrice(price: number | string) {
   return Number(price).toLocaleString();
@@ -20,7 +21,7 @@ export default async function PropertyPage({
   return (
     <FrontendLayout>
       <Navbar variant="solid" />
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<PropertyPageSkeleton />}>
         <PropertyContent propertyId={propertyId} />
       </Suspense>
     </FrontendLayout>
