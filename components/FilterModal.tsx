@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useFilterModalStore } from "../store/useFilterModalStore";
 import Modal from "./Modal";
 import { propertyTypes } from "../data/propertyTypes";
 import PropertyTypeCard from "./PropertyTypeCard";
 import { Input } from "./InputLayout";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const STEPS = {
   TYPE: 0,
@@ -13,14 +14,18 @@ const STEPS = {
   PRICE: 2,
 };
 
-export default function FilterModal() {
+function FilterModalContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { isOpen, close } = useFilterModalStore();
   const [step, setStep] = useState(STEPS.TYPE);
-  const [propertyType, setPropertyType] = useState("");
-  const [location, setLocation] = useState("");
-  const [address, setAddress] = useState("");
-  const [minprice, setMinPrice] = useState("");
-  const [maxprice, setMaxPrice] = useState("");
+  const [propertyType, setPropertyType] = useState(
+    searchParams.get("propertyType") || "",
+  );
+  const [location, setLocation] = useState(searchParams.get("location") || "");
+  const [address, setAddress] = useState(searchParams.get("address") || "");
+  const [minprice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxprice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
   const [loading, setLoading] = useState(false);
 
   const stepTitle = () => {
@@ -36,7 +41,19 @@ export default function FilterModal() {
     }
   };
 
-  const applyFilter = async () => {};
+  const applyFilter = async () => {
+    const params = new URLSearchParams();
+
+    if (location) params.set("location", location);
+    if (address) params.set("address", address);
+    if (minprice) params.set("minPrice", minprice);
+    if (maxprice) params.set("maxPrice", maxprice);
+    if (propertyType) params.set("propertyType", propertyType);
+
+    router.replace(`/marketplace?${params.toString()}`);
+    setStep(STEPS.TYPE);
+    close();
+  };
   return (
     <Modal title="Filter Properties" onClose={close} isOpen={isOpen}>
       <div
@@ -154,5 +171,13 @@ export default function FilterModal() {
         </button>
       </div>
     </Modal>
+  );
+}
+
+export default function FilterModal() {
+  return (
+    <Suspense>
+      <FilterModalContent />
+    </Suspense>
   );
 }

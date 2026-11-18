@@ -35,7 +35,7 @@ export default function EmptyState({
         <div className="mt-8">
           <button
             className="w-full bg-transparent flex items-center justify-center 
-              gap-1.5 rounded-[10px] py-3 ring-1 ring-gray-500/30 hover:ring-gray-500/60 
+              gap-1.5 rounded-[10px] py-3 px-5 ring-1 ring-gray-500/30 hover:ring-gray-500/60 
               hover:ring-2 transition font-semibold duration-500 cursor-pointer disabled:opacity-50"
             onClick={() => router.replace("/")}
           >

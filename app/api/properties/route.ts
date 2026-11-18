@@ -97,6 +97,7 @@ export async function GET(req: NextRequest) {
     const location = searchParams.get("location");
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
+    const address = searchParams.get("address");
 
     const properties = await prisma.property.findMany({
       where: {
@@ -106,6 +107,12 @@ export async function GET(req: NextRequest) {
         ...(location && {
           location: {
             contains: location,
+            mode: "insensitive",
+          },
+        }),
+        ...(address && {
+          address: {
+            contains: address,
             mode: "insensitive",
           },
         }),
