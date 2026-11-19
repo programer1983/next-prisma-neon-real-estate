@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { cn } from "cn";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaSpinner } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { Input } from "./InputLayout";
+import { Textarea } from "./TextariaLaout";
+import axios from "axios";
 
 interface InputValues {
   email: string;
@@ -13,148 +16,136 @@ interface InputValues {
   message: string;
 }
 
-export default function EmailForm() {
+interface EmailFormProps {
+  email: string;
+  name: string;
+  image: string;
+  propertyTitle: string;
+  propertyPrice: number;
+}
+
+export default function EmailForm({
+  email,
+  name,
+  image,
+  propertyTitle,
+  propertyPrice,
+}: EmailFormProps) {
   const [values, setValues] = useState<InputValues>({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const hasName = Boolean(values.name);
-  const hasEmail = Boolean(values.email);
-  const hasPhone = Boolean(values.phone);
-  const hasMessage = Boolean(values.message);
+  const sendEmail = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    if (!values.name || !values.email || !values.phone || !values.message) {
+      toast.error("All fields are required!");
+      return;
+    }
+    try {
+      setLoading(true);
+      await axios.post("/api/send-email", {
+        ownerEmail: email,
+        ownerName: name,
+        propertyTitle,
+        propertyPrice,
+        senderEmail: values.email,
+        senderName: values.name,
+        message: values.message,
+        senderPhone: values.phone,
+      });
+      toast.success("Message send successfully");
+      setValues({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to send email");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mt-6 lg:mt-0 rounded-4xl border border-black/5 bg-card p-8 shadow-sm">
       <div className="flex items-center gap-4">
         <Image
-          src="/images/avatar.png"
+          src={image}
           alt="User"
           width={50}
           height={50}
           className="object-cover rounded-full"
         />
         <div>
-          <h3 className="text-xl font-bold text-[#111827]">Jon Dorian</h3>
+          <h3 className="text-xl font-bold text-[#111827]">{name}</h3>
           <p className="text-[#111827]/60">Property Agent</p>
         </div>
       </div>
-      <div className="mt-8 space-y-4">
+      <form className="mt-8 space-y-4" onSubmit={sendEmail}>
         <div className="relative">
-          <input
+          <Input
             name="name"
+            label="Your name"
             id="register-name"
             type="text"
             value={values.name}
             onChange={(e) => setValues({ ...values, name: e.target.value })}
-            style={{
-              transition: "background-color 9999s ease-in-out 0s",
-            }}
-            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
-            border-2 border-gray-500/30 bg-white transition-colors duration-200 
-            focus:border-[2.5px] focus:border-gray-500/60"
           />
-          <label
-            htmlFor="register-name"
-            className={cn(
-              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasName
-                ? "scale-75 -translate-y-2.5 text-gray-700"
-                : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
-            )}
-          >
-            Your name
-          </label>
         </div>
         <div className="relative">
-          <input
+          <Input
             name="email"
+            label="Your email"
             id="contact-email"
             value={values.email}
             onChange={(e) => setValues({ ...values, email: e.target.value })}
-            style={{
-              transition: "background-color 9999s ease-in-out 0s",
-            }}
-            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
-            border-2 border-gray-500/30 bg-white transition-colors duration-200 
-            focus:border-[2.5px] focus:border-gray-500/60"
           />
-          <label
-            htmlFor="contact-email"
-            className={cn(
-              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasEmail
-                ? "scale-75 -translate-y-2.5 text-gray-700"
-                : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
-            )}
-          >
-            Your email
-          </label>
         </div>
         <div className="relative">
-          <input
+          <Input
             name="phone"
+            label="Your phone"
             id="contact-phone"
             value={values.phone}
             onChange={(e) => setValues({ ...values, phone: e.target.value })}
-            style={{
-              transition: "background-color 9999s ease-in-out 0s",
-            }}
-            className="peer px-3.5 pt-4.5 pb-1 h-12 w-full outline-none rounded-lg 
-            border-2 border-gray-500/30 bg-white transition-colors duration-200 
-            focus:border-[2.5px] focus:border-gray-500/60"
           />
-          <label
-            htmlFor="contact-phone"
-            className={cn(
-              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left",
-              hasPhone
-                ? "scale-75 -translate-y-2.5 text-gray-700"
-                : "peer-focus:scale-75 peer-focus:-translate-y-2.5 peer-focus:text-gray-700",
-            )}
-          >
-            Your phone
-          </label>
         </div>
         <div className="relative">
-          <textarea
+          <Textarea
             name="message"
+            label="Your message"
             id="contact-message"
             value={values.message}
             onChange={(e) => setValues({ ...values, message: e.target.value })}
-            style={{
-              transition: "background-color 9999s ease-in-out 0s",
-            }}
-            className="peer px-3.5 pt-4.5 pb-1 w-full outline-none rounded-lg 
-            border-2 border-gray-500/30 bg-white transition-colors duration-200 
-            focus:border-[2.5px] focus:border-gray-500/60 resize-none h-50"
           />
-          <label
-            htmlFor="contact-message"
-            className={cn(
-              "absolute top-3.5 left-4 text-gray-500 text-sm transition-all duration-200 pointer-events-none origin-left z-10",
-              hasMessage
-                ? "scale-75 -translate-y-3.5 top-3.5 left-3 bg-white px-1.5 text-gray-700"
-                : "top-3.5 peer-focus:scale-75 peer-focus:-translate-y-3.5 peer-focus:top-3.5 peer-focus:left-3 peer-focus:bg-white peer-focus:px-1.5 peer-focus:text-gray-700",
-            )}
-          >
-            Your message
-          </label>
         </div>
         <button
-          className="bg-[#4f46e5] text-white text-[12px] py-3 w-full 
-          font-semibold cursor-pointer  duration-300 hover:scale-[1.02] 
-          flex items-center justify-center gap-2 will-change-transform
-          rounded-lg"
+          className={cn(
+            "bg-[#4f46e5] text-white text-[12px] py-3 w-full font-semibold cursor-pointer duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 will-change-transform rounded-lg",
+            loading && "opacity-60 cursor-not-allowed hover:scale-100",
+          )}
+          type="submit"
+          disabled={loading}
         >
-          <span>
-            <FaPaperPlane size={15} />
-          </span>
-          <span className="text-[15px]">Add Message</span>
+          {loading ? (
+            <>
+              <FaSpinner size={15} className="animate-spin" />
+              <span className="text-[15px]">Sending...</span>
+            </>
+          ) : (
+            <>
+              <FaPaperPlane size={15} />
+              <span className="text-[15px]">Send Email</span>
+            </>
+          )}
         </button>
-      </div>
+      </form>
     </div>
   );
 }
