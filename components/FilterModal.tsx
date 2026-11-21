@@ -1,12 +1,12 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useFilterModalStore } from "../store/useFilterModalStore";
 import Modal from "./Modal";
 import { propertyTypes } from "../data/propertyTypes";
 import PropertyTypeCard from "./PropertyTypeCard";
 import { Input } from "./InputLayout";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const STEPS = {
   TYPE: 0,
@@ -14,19 +14,17 @@ const STEPS = {
   PRICE: 2,
 };
 
-function FilterModalContent() {
+export default function FilterModal() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { isOpen, close } = useFilterModalStore();
+
   const [step, setStep] = useState(STEPS.TYPE);
-  const [propertyType, setPropertyType] = useState(
-    searchParams.get("propertyType") || "",
-  );
-  const [location, setLocation] = useState(searchParams.get("location") || "");
-  const [address, setAddress] = useState(searchParams.get("address") || "");
-  const [minprice, setMinPrice] = useState(searchParams.get("minPrice") || "");
-  const [maxprice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
-  const [loading, setLoading] = useState(false);
+  const [propertyType, setPropertyType] = useState("");
+  const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
+  const [minprice, setMinPrice] = useState("");
+  const [maxprice, setMaxPrice] = useState("");
 
   const stepTitle = () => {
     switch (step) {
@@ -41,21 +39,41 @@ function FilterModalContent() {
     }
   };
 
-  const applyFilter = async () => {
-    const params = new URLSearchParams();
+  const targetPath =
+    pathname === "/properties" || pathname === "/marketplace"
+      ? pathname
+      : "/marketplace";
 
-    if (location) params.set("location", location);
-    if (address) params.set("address", address);
-    if (minprice) params.set("minPrice", minprice);
-    if (maxprice) params.set("maxPrice", maxprice);
-    if (propertyType) params.set("propertyType", propertyType);
-
-    router.replace(`/marketplace?${params.toString()}`);
+  const clearFields = () => {
+    setPropertyType("");
+    setLocation("");
+    setAddress("");
+    setMinPrice("");
+    setMaxPrice("");
     setStep(STEPS.TYPE);
+  };
+
+  const handleClose = () => {
+    clearFields();
     close();
   };
+
+  const applyFilter = () => {
+    const params = new URLSearchParams();
+
+    if (propertyType) params.set("propertyType", propertyType);
+    if (location.trim()) params.set("location", location.trim());
+    if (address.trim()) params.set("address", address.trim());
+    if (minprice) params.set("minPrice", minprice);
+    if (maxprice) params.set("maxPrice", maxprice);
+
+    const queryString = params.toString();
+    router.replace(queryString ? `${targetPath}?${queryString}` : targetPath);
+    handleClose();
+  };
+
   return (
-    <Modal title="Filter Properties" onClose={close} isOpen={isOpen}>
+    <Modal title="Filter Properties" onClose={handleClose} isOpen={isOpen}>
       <div
         className="mb-6 flex items-center justify-between 
         text-sm text-gray-500"
@@ -63,6 +81,7 @@ function FilterModalContent() {
         <span>Step {step + 1} of 3</span>
         <span className="font-medium text-gray-700">{stepTitle()}</span>
       </div>
+
       <div
         className="min-h-55 rounded-xl text-gray-400 p-6 border
         border-dashed border-gray-300"
@@ -70,19 +89,24 @@ function FilterModalContent() {
         {step === STEPS.TYPE && (
           <div
             className="grid grid-cols-2 gap-4 w-full max-h-[50vh] 
-                    overflow-y-scroll no-scrollbar"
+            overflow-y-scroll no-scrollbar"
           >
             {propertyTypes.map((item) => (
               <PropertyTypeCard
                 label={item.label}
                 icon={item.icon}
                 selected={propertyType === item.slug}
-                onClick={() => setPropertyType(item.slug)}
+                onClick={() =>
+                  setPropertyType((prev) =>
+                    prev === item.slug ? "" : item.slug,
+                  )
+                }
                 key={item.slug}
               />
             ))}
           </div>
         )}
+
         {step === STEPS.LOCATION && (
           <div className="space-y-6 w-full">
             <Input
@@ -107,6 +131,7 @@ function FilterModalContent() {
             />
           </div>
         )}
+
         {step === STEPS.PRICE && (
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -148,36 +173,31 @@ function FilterModalContent() {
           </div>
         )}
       </div>
+
       <div className="mt-3 flex gap-3">
         {step > STEPS.TYPE && (
           <button
+            type="button"
             className="w-full bg-transparent flex items-center justify-center 
             gap-1.5 rounded-[10px] py-3 ring-1 ring-gray-500/30 hover:ring-gray-500/60 
-            hover:ring-2 transition font-semibold duration-500 cursor-pointer disabled:opacity-50"
+            hover:ring-2 transition font-semibold duration-500 cursor-pointer"
             onClick={() => setStep((prev) => prev - 1)}
           >
             Back
           </button>
         )}
+
         <button
+          type="button"
           className="py-2 w-full bg-[#4f46e5] text-white rounded-lg
-          transition duration-500 cursor-pointer disabled:opacity-50 hover:bg-[#4f46e5]/80"
+          transition duration-500 cursor-pointer hover:bg-[#4f46e5]/80 font-semibold"
           onClick={() =>
             step < STEPS.PRICE ? setStep((prev) => prev + 1) : applyFilter()
           }
-          disabled={loading}
         >
           {step === STEPS.PRICE ? "Apply Filter" : "Next"}
         </button>
       </div>
     </Modal>
-  );
-}
-
-export default function FilterModal() {
-  return (
-    <Suspense>
-      <FilterModalContent />
-    </Suspense>
   );
 }

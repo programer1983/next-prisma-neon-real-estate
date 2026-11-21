@@ -7,8 +7,17 @@ import { getUserProperties } from "../../../server-actions/getUserProperties";
 import { Suspense } from "react";
 import CardSceleton from "../../../components/sceletons/CardSceleton";
 import EmptyState from "../../../components/EmptyState";
+import FilterButton from "../../../components/FilterButton";
+import {
+  getProperties,
+  GetPropertiesParams,
+} from "../../../server-actions/getProperties";
 
-export default function PropertiesPage() {
+interface PageProps {
+  searchParams: Promise<GetPropertiesParams>;
+}
+export default async function PropertiesPage({ searchParams }: PageProps) {
+  const resolvedParams = await searchParams;
   return (
     <FrontendLayout>
       <Navbar variant="solid" />
@@ -17,25 +26,24 @@ export default function PropertiesPage() {
           <h2 className="text-2xl font-bold text-[#111827] md:text-3xl">
             Properties
           </h2>
-          <Button
-            variant={"outline"}
-            className="font-semibol text-base p-5 rounded-[12px] hover:bg-transparent
-            cursor-pointer  hover:border-black/30"
-          >
-            <HiOutlineAdjustmentsHorizontal className="size-4" />
-            Filter
-          </Button>
+          <FilterButton />
         </div>
-        <Suspense fallback={<CardSceleton />}>
-          <PropertiesContent />
+        <Suspense
+          key={JSON.stringify(resolvedParams)}
+          fallback={<CardSceleton />}
+        >
+          <PropertiesContent params={resolvedParams} />
         </Suspense>
       </div>
     </FrontendLayout>
   );
 }
 
-async function PropertiesContent() {
-  const properties = await getUserProperties();
+async function PropertiesContent({ params }: { params: GetPropertiesParams }) {
+  const properties = await getProperties({
+    ...params,
+    onlyCurrentUser: true,
+  });
   if (properties.length === 0) {
     return (
       <EmptyState

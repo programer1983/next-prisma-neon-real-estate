@@ -32,8 +32,14 @@ export default function Navbar({ variant = "transparent" }: NavbarProps) {
   const isTransparent = variant === "transparent";
 
   const handleLogout = async () => {
-    await authClient.signOut();
-    router.refresh();
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+          router.refresh();
+        },
+      },
+    });
   };
 
   return (

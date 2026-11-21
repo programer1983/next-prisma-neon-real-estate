@@ -8,11 +8,11 @@ import PropertyTypeCard from "./PropertyTypeCard";
 import Counter from "./Counter";
 import { Input } from "./InputLayout";
 import ImageUpload from "./ImageUpload";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Textarea } from "./TextariaLaout";
 import { TbLoader2 } from "react-icons/tb";
+import { createProperty } from "../server-actions/createProperty";
 
 const STEPS = {
   TYPE: 0,
@@ -68,9 +68,16 @@ export default function CreatePropertyModal() {
   };
 
   const createListing = async () => {
+    console.log("1. Нажата кнопка Create!", {
+      title,
+      propertyType,
+      image,
+      price,
+    });
     try {
       setLoading(true);
       const formData = new FormData();
+
       formData.append("title", title);
       formData.append("description", description);
       formData.append("price", price);
@@ -86,19 +93,30 @@ export default function CreatePropertyModal() {
       if (image) {
         formData.append("image", image);
       }
-      await axios.post("/api/properties", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      toast.success("Property created successfully");
-      router.replace("/properties");
-      handleClose();
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error || "Something went wrong");
+
+      console.log("2. Отправляем в Server Action...");
+      const result = await createProperty(formData);
+      console.log("3. Ответ от сервера:", result);
+
+      if (!result) {
+        toast.error(
+          "Server returned empty response (check file size limit in next.config)",
+        );
         return;
       }
+
+      if (result?.error) {
+        toast.error(result.error);
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Property created successfully");
+      handleClose();
+      router.push("/properties");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -114,6 +132,9 @@ export default function CreatePropertyModal() {
     setTitle("");
     setDescription("");
     setImage(null);
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
     setPreview(null);
     setStep(STEPS.TYPE);
     setAddress("");

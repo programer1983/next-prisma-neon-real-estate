@@ -28,7 +28,7 @@ export default async function MarketPage({ searchParams }: MarketPageProps) {
           </h2>
           <FilterButton />
         </div>
-        <Suspense fallback={<CardSceleton />}>
+        <Suspense key={JSON.stringify(params)} fallback={<CardSceleton />}>
           <MarketPlace searchParams={params} />
         </Suspense>
       </div>
