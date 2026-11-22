@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import FrontendLayout from "../components/FrontendLayuot";
 import Hero from "../components/HeroSection";
 import Navbar from "../components/Navbar";
