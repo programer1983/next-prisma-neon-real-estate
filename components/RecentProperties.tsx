@@ -5,7 +5,7 @@ import CardSceleton from "./sceletons/CardSceleton";
 
 export default async function RecentProperties() {
   return (
-    <section className="py-10 md:py-24">
+    <section className="py-6 md:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="max-w-2xl">
           <p className="mb-3 text-sm font-semibold uppercase tracing-[0.25em] text-[#4f46e5]">

@@ -33,7 +33,10 @@ async function PropertyContent({ propertyId }: { propertyId: string }) {
   return (
     <section className="py-15">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex flex-col gap-8 min-[1100px]:flex-row lg:items-start lg:justify-between">
+        <div
+          className="flex flex-col md:gap-8 min-[1100px]:flex-row lg:items-start 
+          lg:justify-between"
+        >
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.25rem] text-[#4f46e5]">
               {property?.listingType === "sale" ? "FOR SALE" : "FOR RENT"}
@@ -80,7 +83,10 @@ async function PropertyContent({ propertyId }: { propertyId: string }) {
               </div>
             </div>
           </div>
-          <div className="rounded-[28px] border border-black/5 bg-[#ffffff] p-6 shadow-sm">
+          <div
+            className="rounded-[28px] border border-black/5 bg-[#ffffff] 
+            p-6 shadow-sm"
+          >
             <p className="text-sm text-[#111827]/60">Property Price</p>
             <h2 className="mt-2 text-4xl font-bold text-[#4f46e5]">
               ${formatPrice(property?.price || "")}
@@ -95,13 +101,13 @@ async function PropertyContent({ propertyId }: { propertyId: string }) {
             fill
           />
         </div>
-        <div className="mt-16  gap-10 lg:grid  lg:grid-cols-3">
+        <div className="md:mt-16  gap-10 lg:grid  lg:grid-cols-3">
           <div className="col-span-2">
             <div className="rounded-4xl border border-black/5 bg-[#ffffff] p-8 shadow-sm">
-              <h2 className="text-[25px] md:text-3xl text-[#111827] font-bold">
+              <h2 className="text-[20px] md:text-3xl text-[#111827] font-bold">
                 About This Property
               </h2>
-              <p className="mt-6 leading-relaxed text-[#111827]/70">
+              <p className="mt-4 md:mt-6 text-sm md:text-base leading-relaxed text-[#111827]/70">
                 {property?.description}
               </p>
             </div>

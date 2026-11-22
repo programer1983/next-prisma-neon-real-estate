@@ -57,8 +57,8 @@ export default function MobileMenu({
               {session ? (
                 <Button
                   className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
-                              duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
-                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
+                  ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
                   onClick={handleLogout}
                 >
                   <span className="group-hover:text-[#4f46e5] ">Logout</span>
@@ -66,8 +66,8 @@ export default function MobileMenu({
               ) : (
                 <Button
                   className={`group bg-white text-black text-[12px] p-5 font-semibold hover:bg-white 
-                              duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
-                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  duration-300 hover:scale-[1.05] will-change-transform cursor-pointer
+                  ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
                   onClick={openLogin}
                 >
                   <span className="group-hover:text-[#4f46e5] ">Login</span>
@@ -76,8 +76,8 @@ export default function MobileMenu({
               {!isPending && session && (
                 <Button
                   className={`group bg-white text-black text-[12px] p-5 font-semibold 
-                              cursor-pointer hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
-                              ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
+                  cursor-pointer hover:bg-white duration-300 hover:scale-[1.05] will-change-transform 
+                  ${!isTransparent ? "border border-black/15 hover:border-black/30" : ""}`}
                   onClick={openCreateModal}
                 >
                   <span className="group-hover:text-[#4f46e5]">

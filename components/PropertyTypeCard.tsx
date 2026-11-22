@@ -18,7 +18,7 @@ export default function PropertyTypeCard({
     <button
       className={cn(
         `my-6 flex flex-col gap-3 p-4 border rounded-xl text-left treansition 
-        text-gray-700 hover:border-black`,
+        text-gray-700 hover:border-black w-full items-center md:items-start`,
         selected ? "border-black bg-gray-50" : "border-gray-200",
       )}
       type="button"

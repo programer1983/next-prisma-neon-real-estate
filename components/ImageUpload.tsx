@@ -23,8 +23,8 @@ export default function ImageUpload({ preview, onChange }: ImageUploadProps) {
         {!preview && (
           <>
             <TbPhotoPlus size={36} />
-            <p className="font-medium">Click to upload</p>
-            <p className="text-sm">Upload one image</p>
+            <p className="text-sm md:text-base font-medium">Click to upload</p>
+            <p className="text-[11px] md:text-sm">Upload one image</p>
           </>
         )}
         {preview && (

@@ -1,9 +1,6 @@
-import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import Navbar from "../../../components/Navbar";
 import PropertyCard from "../../../components/PropertyCard";
 import FrontendLayout from "./../../../components/FrontendLayuot";
-import { Button } from "../../../components/ui/button";
-import { getUserProperties } from "../../../server-actions/getUserProperties";
 import { Suspense } from "react";
 import CardSceleton from "../../../components/sceletons/CardSceleton";
 import EmptyState from "../../../components/EmptyState";

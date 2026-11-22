@@ -145,11 +145,11 @@ export default function CreatePropertyModal() {
   return (
     <Modal title="Create a new listing" onClose={close} isOpen={isOpen}>
       <div
-        className="mb-6 flex items-center justify-between 
+        className="mb-6 md:flex items-center justify-between 
        text-sm text-gray-500"
       >
-        <span>Step {step + 1} of 6</span>
-        <span className="font-medium text-gray-700">{stepTitle()}</span>
+        <span className="block">Step {step + 1} of 6</span>
+        <span className="block font-medium text-gray-700">{stepTitle()}</span>
       </div>
       <div
         className="min-h-55 rounded-xl text-gray-400 p-6 border
@@ -157,7 +157,7 @@ export default function CreatePropertyModal() {
       >
         {step === STEPS.TYPE && (
           <div
-            className="grid grid-cols-2 gap-4 w-full max-h-[50vh] 
+            className="w-full md:grid grid-cols-2 gap-4  max-h-[50vh] 
             overflow-y-scroll no-scrollbar"
           >
             {propertyTypes.map((item) => (
@@ -196,7 +196,10 @@ export default function CreatePropertyModal() {
           </div>
         )}
         {step === STEPS.DETAILS && (
-          <div className="space-y-4">
+          <div
+            className="space-y-4 max-h-[50vh] 
+            overflow-y-scroll no-scrollbar"
+          >
             <Counter
               title="Bedrooms"
               subTitle="How many bedrooms"
@@ -303,7 +306,8 @@ export default function CreatePropertyModal() {
           <button
             className="w-full bg-transparent flex items-center justify-center 
             gap-1.5 rounded-[10px] py-3 ring-1 ring-gray-500/30 hover:ring-gray-500/60 
-            hover:ring-2 transition font-semibold duration-500 cursor-pointer disabled:opacity-50"
+            hover:ring-2 transition font-semibold duration-500 cursor-pointer 
+            disabled:opacity-50 text-sm md:text-base"
             onClick={() => setStep((prev) => prev - 1)}
           >
             Back
@@ -311,7 +315,8 @@ export default function CreatePropertyModal() {
         )}
         <button
           className="py-2 w-full bg-[#4f46e5] text-white rounded-lg
-          transition duration-500 cursor-pointer disabled:opacity-50 hover:bg-[#4f46e5]/80"
+          transition duration-500 cursor-pointer disabled:opacity-50 
+          hover:bg-[#4f46e5]/80 text-sm md:text-base"
           onClick={() =>
             step < STEPS.PRICING ? setStep((prev) => prev + 1) : createListing()
           }
